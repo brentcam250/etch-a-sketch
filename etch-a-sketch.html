@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="./etch-a-sketch.css">
+<head>
+    <title>Odin: Etch-A-Sketch</title>
+</head>
+<body>
+    <h1>Etch-A-Sketch</h1>
+    <button id = 'clear-grid'>Clear Grid!</button>
+    <div id = 'container'>
+
+    </div>
+</body>
+
+<script>
+    function colourSquare (event){
+        //this is the function thats called when the event happens will change the background colour of the square it targets.
+        event.target.style.backgroundColor = "black";
+    }
+    //create a grid inside the container div, size as passed in via parameter
+    function  createGrid (gridSize = 16){
+        let container = document.querySelector('#container');
+        for(let x = 0; x < gridSize; x ++){
+            //we want a square of gridsize so need a nested loop
+            let divRow = document.createElement('div');
+            divRow.classList.add('grid-row');
+            //this is a container div for the row
+            //add children to this and then append this subcontainer as a child of the main container.
+            for(let y = 0; y < gridSize; y++){
+                let div = document.createElement('div');
+                div.classList.add('grid-item');
+                div.addEventListener('mouseenter', e => {
+                    div.style.backgroundColor = "black";
+                })
+                divRow.insertAdjacentElement('beforeend', div);
+            }
+            container.appendChild(divRow);
+        }
+    }
+
+    let clearGrid = document.getElementById('clear-grid');
+    clearGrid.onclick = () => {
+        //clear the old grid
+        let container = document.querySelector('#container');
+        let childElem = container.firstElementChild;
+        while(childElem){
+            container.removeChild(childElem);
+            childElem = container.firstElementChild;
+        }
+
+        //make a new grid!
+        let userSelectedGridSize = prompt('enter a grid size for your etch-a-sketch!');
+        if(userSelectedGridSize){
+            createGrid(userSelectedGridSize);
+        }else{
+            createGrid();
+        }
+    }
+
+    createGrid();
+    
+</script>
